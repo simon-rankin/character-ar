@@ -1,0 +1,8 @@
+[
+  {
+    "slug": "char-01",
+    "label": "Character 1",
+    "card": "char-01.png",
+    "video": "your-source-video-filename.mp4"
+  }
+]

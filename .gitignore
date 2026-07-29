@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+
+# Raw source material — filenames and/or content reference real people,
+# and shouldn't be published. The public site only needs web/, which
+# already uses generic slugs/labels.
+/videos/
+/cards/
+/cards.json

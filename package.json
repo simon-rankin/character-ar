@@ -1,0 +1,22 @@
+{
+  "name": "character-ar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate-placeholders": "node scripts/generate-placeholders-batch.js",
+    "build": "node scripts/build.js",
+    "serve": "npx serve web -l 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "mind-ar": "^1.2.5"
+  },
+  "overrides": {
+    "canvas": "^3.2.3"
+  }
+}
