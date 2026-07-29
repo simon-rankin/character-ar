@@ -149,13 +149,15 @@
     startBtn.textContent = 'Starting…';
     try {
       // Unlock audio-capable playback on iOS Safari with a user-gesture-tied play/pause.
-      for (const video of videos) {
-        try {
-          await video.play();
+      // Fire every play() synchronously in this same tick — awaiting them one at a time
+      // burns through the gesture's activation window, so later videos in the list
+      // would stop counting as "user-initiated" and silently fail to autoplay.
+      videos.forEach((video) => {
+        video.play().then(() => {
           video.pause();
           video.currentTime = 0;
-        } catch (e) { /* ignore — will retry on target found */ }
-      }
+        }).catch(() => { /* ignore — will retry on target found */ });
+      });
 
       await mindarThree.start();
       renderer.setAnimationLoop(() => {
