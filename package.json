@@ -6,7 +6,7 @@
   "scripts": {
     "generate-placeholders": "node scripts/generate-placeholders-batch.js",
     "build": "node scripts/build.js",
-    "serve": "npx serve web -l 8080"
+    "serve": "npx serve docs -l 8080"
   },
   "keywords": [],
   "author": "",

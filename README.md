@@ -6,16 +6,18 @@ card, and the matching character video plays in perspective right over the card.
 
 Built with [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) image tracking + three.js.
 
+Live site (via GitHub Pages): https://simon-rankin.github.io/character-ar/
+
 ## How it works
 
 1. `cards/` holds the printed card artwork (one image per character).
 2. `videos/` holds the source character videos.
 3. `cards.json` lists which card pairs with which video.
 4. Running the build script compiles all the cards into one tracking file and
-   copies the paired videos into `web/`, which is the folder that actually gets
-   hosted/deployed.
+   copies the paired videos into `docs/`, which is the folder GitHub Pages
+   actually hosts.
 
-You never hand-edit anything inside `web/targets.mind` or `web/manifest.json` —
+You never hand-edit anything inside `docs/targets.mind` or `docs/manifest.json` —
 they're regenerated every time you run the build.
 
 ## Adding a new card
@@ -40,17 +42,18 @@ they're regenerated every time you run the build.
    npm run build
    ```
 
-5. Reload the web page (or redeploy `web/`) — the new card now works. You can
-   have as many entries in `cards.json` as you like; the app tracks all of them
-   at once, so any card in the set can be scanned.
+5. Commit and push `docs/` — GitHub Pages redeploys automatically. You can have
+   as many entries in `cards.json` as you like; the app tracks all of them at
+   once, so any card in the set can be scanned.
 
 If you'd rather not touch the JSON yourself, just tell me the character name,
-card image, and video file, and I'll add the entry and run the build for you.
+card image, and video file, and I'll add the entry, run the build, and push it
+for you.
 
 ## Removing a card
 
 1. Delete its entry from `cards.json`.
-2. Run `npm run build` again.
+2. Run `npm run build` again, then commit and push `docs/`.
 
 You don't need to delete the actual image/video files — anything not listed in
 `cards.json` is simply ignored.
@@ -77,22 +80,22 @@ The character videos aren't all the same aspect ratio (most are tall 1080×1920
 portrait clips, but a few are different — one is even landscape). The app
 automatically crops each video to fill the card's shape without stretching it
 (like CSS `object-fit: cover`), so mismatched videos still look correct, but a
-badly-mismatched one (e.g. the landscape clip) will have more of its frame
-cropped off. Worth keeping new source videos close to the same portrait shape
-as the printed cards if possible.
+badly-mismatched one will have more of its frame cropped off. Worth keeping new
+source videos close to the same portrait shape as the printed cards if possible.
 
 ## Note on privacy
 
 `videos/`, `cards/`, and `cards.json` are git-ignored and stay local to this
 Mac — the source videos and `cards.json` reference real people by filename,
-and shouldn't be published. Only `web/` (which already uses generic slugs like
+and shouldn't be published. Only `docs/` (which uses generic slugs like
 `char-01`) is committed and hosted. See `cards.json.example` for the format if
 you need to recreate a local `cards.json` from scratch.
 
 ## Current status
 
-- One test card is wired up end-to-end (`walking-dude`, using a placeholder
-  generated image — not final artwork).
-- Hosted locally for testing via a temporary tunnel URL — not a permanent
-  public address yet. Before real-world/print use, `web/` needs to be deployed
-  somewhere permanent (e.g. Netlify, Vercel, GitHub Pages).
+- 14 test cards are wired up end-to-end, each using a generated placeholder
+  image (not final artwork) paired with one of the source videos.
+- 4 source videos were excluded because their aspect ratio/orientation doesn't
+  match the rest (one is landscape, others are unusually tall or square) —
+  worth deciding whether to re-export those before adding them.
+- Hosted on GitHub Pages from this repo's `docs/` folder.

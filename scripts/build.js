@@ -10,7 +10,7 @@ const root = path.join(__dirname, '..');
 const cardsConfigPath = path.join(root, 'cards.json');
 const cardsDir = path.join(root, 'cards');
 const videosDir = path.join(root, 'videos');
-const webDir = path.join(root, 'web');
+const webDir = path.join(root, 'docs');
 const webVideosDir = path.join(webDir, 'videos');
 
 const config = JSON.parse(fs.readFileSync(cardsConfigPath, 'utf-8'));
@@ -65,5 +65,5 @@ const buffer = compiler.exportData();
 fs.writeFileSync(path.join(webDir, 'targets.mind'), Buffer.from(buffer));
 fs.writeFileSync(path.join(webDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
 
-console.log(`\nWrote web/targets.mind and web/manifest.json with ${manifest.length} card(s):`);
+console.log(`\nWrote docs/targets.mind and docs/manifest.json with ${manifest.length} card(s):`);
 manifest.forEach((m, i) => console.log(`  [${i}] ${m.label} -> ${m.video}`));
