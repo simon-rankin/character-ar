@@ -3,64 +3,64 @@
     "slug": "char-01",
     "label": "Character 1",
     "video": "videos/char-01.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-02",
     "label": "Character 2",
     "video": "videos/char-02.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-03",
     "label": "Character 3",
     "video": "videos/char-03.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-04",
     "label": "Character 4",
     "video": "videos/char-04.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-05",
     "label": "Character 5",
     "video": "videos/char-05.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-06",
     "label": "Character 6",
     "video": "videos/char-06.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-07",
     "label": "Character 7",
     "video": "videos/char-07.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-08",
     "label": "Character 8",
     "video": "videos/char-08.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-09",
     "label": "Character 9",
     "video": "videos/char-09.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-10",
@@ -73,28 +73,28 @@
     "slug": "char-11",
     "label": "Character 11",
     "video": "videos/char-11.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-12",
     "label": "Character 12",
     "video": "videos/char-12.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-13",
     "label": "Character 13",
     "video": "videos/char-13.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   },
   {
     "slug": "char-14",
     "label": "Character 14",
     "video": "videos/char-14.mp4",
-    "width": 750,
-    "height": 1050
+    "width": 1080,
+    "height": 1920
   }
 ]
