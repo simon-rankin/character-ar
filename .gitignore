@@ -2,8 +2,12 @@ node_modules/
 .DS_Store
 
 # Raw source material — filenames and/or content reference real people,
-# and shouldn't be published. The public site only needs web/, which
+# and shouldn't be published. The public site only needs docs/, which
 # already uses generic slugs/labels.
 /videos/
 /cards/
 /cards.json
+
+# Print layout working files — InDesign source + any exports that combine
+# the trigger image with personal info (student names, IG handles, QR).
+/card WIP/
