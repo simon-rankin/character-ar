@@ -74,6 +74,23 @@ detail in the artwork itself, so the design needs enough of it:
 - Once a design is close to final, send it over and I'll test-compile it and
   tell you if it tracks well before it goes to print.
 
+## Video loading and file size
+
+Only the card actually being scanned is downloaded. The app uses a single video
+element whose source is repointed when a target is recognised, so opening the
+page costs one small `manifest.json` fetch and nothing else — adding more cards
+doesn't slow down the first load.
+
+`npm run build` also re-encodes each video for the web (capped at 720px wide,
+CRF 26, `+faststart`) on its way into `docs/`. Files in `videos/` are treated as
+untouched masters, so you can drop in whatever your editing app exports without
+worrying about size — some originals were over 30 Mbps, which is far more than
+a card-sized overlay on a phone can show. Re-encoding is skipped when a video
+hasn't changed since the last build.
+
+If a video ever looks too soft, raise `MAX_WIDTH` or lower `CRF` at the top of
+`scripts/build.js` and rebuild.
+
 ## Video shape vs. card shape
 
 The character videos aren't all the same aspect ratio (most are tall 1080×1920
@@ -93,9 +110,8 @@ you need to recreate a local `cards.json` from scratch.
 
 ## Current status
 
-- 14 test cards are wired up end-to-end, each using a generated placeholder
-  image (not final artwork) paired with one of the source videos.
-- 4 source videos were excluded because their aspect ratio/orientation doesn't
-  match the rest (one is landscape, others are unusually tall or square) —
-  worth deciding whether to re-export those before adding them.
+- 21 cards are live: 14 character animations plus 7 kinetic-type exercises.
+  Each uses a still frame from its own video as the tracking image.
+- 4 of the original source videos remain excluded because their aspect ratio
+  doesn't match the rest (one is landscape, others unusually tall or square).
 - Hosted on GitHub Pages from this repo's `docs/` folder.

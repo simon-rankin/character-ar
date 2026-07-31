@@ -96,5 +96,54 @@
     "video": "videos/char-14.mp4",
     "width": 1080,
     "height": 1920
+  },
+  {
+    "slug": "type-1",
+    "label": "Kinetic Type 1",
+    "video": "videos/type-1.mp4",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "type-2",
+    "label": "Kinetic Type 2",
+    "video": "videos/type-2.mp4",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "type-3",
+    "label": "Kinetic Type 3",
+    "video": "videos/type-3.mp4",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "type-5",
+    "label": "Kinetic Type 5",
+    "video": "videos/type-5.mp4",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "type-6",
+    "label": "Kinetic Type 6",
+    "video": "videos/type-6.mp4",
+    "width": 608,
+    "height": 1080
+  },
+  {
+    "slug": "type-7",
+    "label": "Kinetic Type 7",
+    "video": "videos/type-7.mp4",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "type-8",
+    "label": "Kinetic Type 8",
+    "video": "videos/type-8.mp4",
+    "width": 1080,
+    "height": 1920
   }
 ]

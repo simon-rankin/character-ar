@@ -91,55 +91,84 @@
   const mindarThree = new MindARThree({
     container,
     imageTargetSrc: './targets.mind',
-    maxTrack: manifest.length,
+    // Only one card is ever held up at a time. Tracking every target at once
+    // costs work per frame for no benefit.
+    maxTrack: 1,
   });
   const { renderer, scene, camera } = mindarThree;
 
-  const videos = [];
+  // One shared video element for the whole set. Giving each card its own
+  // element made the browser fetch every video on page load; with one element
+  // whose src is set on scan, only the card actually being looked at downloads.
+  const video = document.createElement('video');
+  video.loop = true;
+  video.muted = false;
+  video.playsInline = true;
+  video.setAttribute('webkit-playsinline', 'true');
+  video.preload = 'none';
+
+  const texture = new THREE.VideoTexture(video);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.MeshBasicMaterial({ map: texture, toneMapped: false });
+
+  // 0.1s of silent black video, inlined so the gesture unlock needs no network.
+  const UNLOCK_CLIP = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAVqbW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAAGQAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAj90cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAABAAAAAQAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAABkAAAAAAABAAAAAAG3bWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAAAoAAAABABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAABYm1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAASJzdGJsAAAAvnN0c2QAAAAAAAAAAQAAAK5hdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAABAAEABIAAAASAAAAAAAAAABFUxhdmM2Mi4yOC4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAANGF2Y0MBZAAK/+EAF2dkAAqs2V7ARAAAAwAEAAADAFA8SJZYAQAGaOvgZSyL/fj4AAAAABBwYXNwAAAAAQAAAAEAAAAUYnRydAAAAAAAANygAAAAAAAAABhzdHRzAAAAAAAAAAEAAAABAAAEAAAAABxzdHNjAAAAAAAAAAEAAAABAAAAAQAAAAEAAAAUc3RzegAAAAAAAALCAAAAAQAAABRzdGNvAAAAAAAAAAEAAAWvAAACVXRyYWsAAABcdGtoZAAAAAMAAAAAAAAAAAAAAAIAAAAAAAAAXQAAAAAAAAAAAAAAAQEAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAACRlZHRzAAAAHGVsc3QAAAAAAAAAAQAAAF0AAAQAAAEAAAAAAc1tZGlhAAAAIG1kaGQAAAAAAAAAAAAAAAAAAKxEAAAUAFXEAAAAAAAtaGRscgAAAAAAAAAAc291bgAAAAAAAAAAAAAAAFNvdW5kSGFuZGxlcgAAAAF4bWluZgAAABBzbWhkAAAAAAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAE8c3RibAAAAH5zdHNkAAAAAAAAAAEAAABubXA0YQAAAAAAAAABAAAAAAAAAAAAAQAQAAAAAKxEAAAAAAA2ZXNkcwAAAAADgICAJQACAASAgIAXQBUAAAAAAB9AAAAJ9QWAgIAFEghW5QAGgICAAQIAAAAUYnRydAAAAAAAAB9AAAAJ9QAAABhzdHRzAAAAAAAAAAEAAAAFAAAEAAAAAChzdHNjAAAAAAAAAAIAAAABAAAAAQAAAAEAAAACAAAABAAAAAEAAAAoc3RzegAAAAAAAAAAAAAABQAAABUAAAAEAAAABAAAAAQAAAAEAAAAGHN0Y28AAAAAAAAAAgAABZoAAAhxAAAAGnNncGQBAAAAcm9sbAAAAAIAAAAB//8AAAAcc2JncAAAAAByb2xsAAAAAQAAAAUAAAABAAAAYnVkdGEAAABabWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAtaWxzdAAAACWpdG9vAAAAHWRhdGEAAAABAAAAAExhdmY2Mi4xMi4xMDIAAAAIZnJlZQAAAu9tZGF03gIATGF2YzYyLjI4LjEwMgACMEAOAAACrgYF//+q3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE2NSByMzIyMiBiMzU2MDVhIC0gSC4yNjQvTVBFRy00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAyNSAtIGh0dHA6Ly93d3cudmlkZW9sYW4ub3JnL3gyNjQuaHRtbCAtIG9wdGlvbnM6IGNhYmFjPTEgcmVmPTMgZGVibG9jaz0xOjA6MCBhbmFseXNlPTB4MzoweDExMyBtZT1oZXggc3VibWU9NyBwc3k9MSBwc3lfcmQ9MS4wMDowLjAwIG1peGVkX3JlZj0xIG1lX3JhbmdlPTE2IGNocm9tYV9tZT0xIHRyZWxsaXM9MSA4eDhkY3Q9MSBjcW09MCBkZWFkem9uZT0yMSwxMSBmYXN0X3Bza2lwPTEgY2hyb21hX3FwX29mZnNldD0tMiB0aHJlYWRzPTEgbG9va2FoZWFkX3RocmVhZHM9MSBzbGljZWRfdGhyZWFkcz0wIG5yPTAgZGVjaW1hdGU9MSBpbnRlcmxhY2VkPTAgYmx1cmF5X2NvbXBhdD0wIGNvbnN0cmFpbmVkX2ludHJhPTAgYmZyYW1lcz0zIGJfcHlyYW1pZD0yIGJfYWRhcHQ9MSBiX2JpYXM9MCBkaXJlY3Q9MSB3ZWlnaHRiPTEgb3Blbl9nb3A9MCB3ZWlnaHRwPTIga2V5aW50PTI1MCBrZXlpbnRfbWluPTEwIHNjZW5lY3V0PTQwIGludHJhX3JlZnJlc2g9MCByY19sb29rYWhlYWQ9NDAgcmM9Y3JmIG1idHJlZT0xIGNyZj01MS4wIHFjb21wPTAuNjAgcXBtaW49MCBxcG1heD02OSBxcHN0ZXA9NCBpcF9yYXRpbz0xLjQwIGFxPTE6MS4wMACAAAAADGWIhAAv//Bj8CbQYQEYIAcBGCAHARggBwEYIAc=';
+
+  const HINT_DEFAULT = hintText.textContent;
+  let activeIndex = -1;
+
+  // Cover-fit the video into the card's shape (like CSS object-fit: cover),
+  // since a video needn't share the aspect ratio of the card it's anchored to.
+  const fitToCard = (entry) => {
+    const planeAspect = entry.width / entry.height;
+    const videoAspect = video.videoWidth / video.videoHeight;
+    if (!videoAspect) return;
+    if (videoAspect > planeAspect) {
+      texture.repeat.set(planeAspect / videoAspect, 1);
+      texture.offset.set((1 - texture.repeat.x) / 2, 0);
+    } else {
+      texture.repeat.set(1, videoAspect / planeAspect);
+      texture.offset.set(0, (1 - texture.repeat.y) / 2);
+    }
+  };
+
+  video.addEventListener('loadedmetadata', () => {
+    if (activeIndex >= 0) fitToCard(manifest[activeIndex]);
+  });
+
+  // A card's video is fetched the first time it's scanned, so give the viewer
+  // something to read during that wait instead of an empty card.
+  video.addEventListener('waiting', () => {
+    hintText.textContent = 'Loading…';
+    hint.classList.remove('hidden');
+  });
+  video.addEventListener('playing', () => {
+    hint.classList.add('hidden');
+  });
 
   manifest.forEach((entry, index) => {
-    const video = document.createElement('video');
-    video.src = entry.video;
-    video.loop = true;
-    video.muted = false;
-    video.playsInline = true;
-    video.setAttribute('webkit-playsinline', 'true');
-    video.crossOrigin = 'anonymous';
-    video.preload = 'auto';
-    videos.push(video);
-
-    const texture = new THREE.VideoTexture(video);
-    texture.colorSpace = THREE.SRGBColorSpace;
-
-    const aspect = entry.height / entry.width;
-    const planeAspect = entry.width / entry.height;
-    const geometry = new THREE.PlaneGeometry(1, aspect);
-    const material = new THREE.MeshBasicMaterial({ map: texture, toneMapped: false });
+    const geometry = new THREE.PlaneGeometry(1, entry.height / entry.width);
     const plane = new THREE.Mesh(geometry, material);
-
-    // Cover-fit the video into the card's shape (like CSS object-fit: cover),
-    // since source videos don't all share the same aspect ratio as the printed card.
-    video.addEventListener('loadedmetadata', () => {
-      const videoAspect = video.videoWidth / video.videoHeight;
-      if (videoAspect > planeAspect) {
-        texture.repeat.set(planeAspect / videoAspect, 1);
-        texture.offset.set((1 - texture.repeat.x) / 2, 0);
-      } else {
-        texture.repeat.set(1, videoAspect / planeAspect);
-        texture.offset.set(0, (1 - texture.repeat.y) / 2);
-      }
-    });
 
     const anchor = mindarThree.addAnchor(index);
     anchor.group.add(plane);
 
     anchor.onTargetFound = () => {
       hint.classList.add('hidden');
-      video.currentTime = 0;
+      activeIndex = index;
+      if (video.src.endsWith(entry.video)) {
+        video.currentTime = 0; // same card again — replay from the top
+      } else {
+        // Re-pointing src starts the download for this card only, and a fresh
+        // source begins at 0 on its own (seeking before it loads would throw).
+        video.src = entry.video;
+      }
+      fitToCard(entry);
       video.play().catch(() => {});
     };
     anchor.onTargetLost = () => {
-      video.pause();
+      if (activeIndex === index) video.pause();
+      hintText.textContent = HINT_DEFAULT;
       hint.classList.remove('hidden');
     };
   });
@@ -148,16 +177,14 @@
     startBtn.disabled = true;
     startBtn.textContent = 'Starting…';
     try {
-      // Unlock audio-capable playback on iOS Safari with a user-gesture-tied play/pause.
-      // Fire every play() synchronously in this same tick — awaiting them one at a time
-      // burns through the gesture's activation window, so later videos in the list
-      // would stop counting as "user-initiated" and silently fail to autoplay.
-      videos.forEach((video) => {
-        video.play().then(() => {
-          video.pause();
-          video.currentTime = 0;
-        }).catch(() => { /* ignore — will retry on target found */ });
-      });
+      // Unlock audio-capable playback on iOS Safari: the element has to be
+      // played once inside a user gesture before it may play on its own later.
+      // Use a tiny inlined silent clip so unlocking costs no real download.
+      video.src = UNLOCK_CLIP;
+      try {
+        await video.play();
+        video.pause();
+      } catch (e) { /* ignore — playback is retried on target found */ }
 
       await mindarThree.start();
       renderer.setAnimationLoop(() => {
