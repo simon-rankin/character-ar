@@ -16,14 +16,15 @@ Mono is served through [Adobe Fonts](https://fonts.adobe.com/fonts/aglet-mono-va
 which is included with any paid Creative Cloud subscription — no pageview limits,
 personal and commercial use permitted.
 
-To switch it on, create a Web Project at fonts.adobe.com containing Aglet Mono
-and uncomment the `use.typekit.net` link in `docs/index.html` with your own kit
-id. Until then the page falls back to the system monospace face, so the layout
-is already correct and only the letterforms change.
+It's already wired up: `docs/index.html` links the web project kit
+`use.typekit.net/ece5gtw.css`, serving regular (400) and bold (700).
 
-Two caveats: the web fonts stop loading if the Creative Cloud subscription
-lapses (the page silently falls back), and a kit id belongs to the account that
-created it — don't reuse another site's.
+Two things to be aware of. The kit is tied to this account's Creative Cloud
+subscription — if that lapses the stylesheet stops resolving and the page
+quietly falls back to the system monospace face in the `--mono` stack rather
+than breaking. And if you ever add a weight or style to the design, it also has
+to be ticked on in the web project, or the browser will synthesise a fake bold
+or oblique instead.
 
 Live site (via GitHub Pages): https://simon-rankin.github.io/character-ar/
 
