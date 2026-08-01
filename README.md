@@ -91,6 +91,37 @@ hasn't changed since the last build.
 If a video ever looks too soft, raise `MAX_WIDTH` or lower `CRF` at the top of
 `scripts/build.js` and rebuild.
 
+## Device support and fallback messages
+
+The experience needs a browser with import maps, WebGL and camera access —
+in practice **iOS 16.4+** or a reasonably current Android browser. Rather than
+failing silently, anything that can't run shows a full-screen explanation:
+
+| Situation | What the visitor sees |
+|---|---|
+| Browser too old | "Sorry — this phone isn't supported", naming the iOS version needed and how to update |
+| Opened inside Instagram/Facebook/TikTok etc. | "Open this in Safari/Chrome", with a copy-link button and a *Try anyway* option |
+| Camera permission off | Step-by-step settings instructions for that exact phone and browser |
+| Camera in use by another app | Told to close the other app and reload |
+| No camera | Told to try a phone or tablet |
+| Page served over http | Told it must be opened over https |
+| Scripts fail to download | Suggests a different network |
+
+The checks run in a plain (non-module) script deliberately, because browsers too
+old to parse the main module would otherwise show a Start button that does
+nothing at all. Camera permission is also requested directly rather than via
+MindAR, which discards the underlying error — the difference between "blocked in
+settings" and "no camera" is exactly what the visitor needs to be told.
+
+`targets.mind` is the largest thing a visitor downloads (~11MB at 21 cards, and
+it grows roughly 535KB per card). It starts downloading while the intro screen
+is still on show, so the wait overlaps with reading rather than stalling after
+Start.
+
+Worth knowing: on some Android phones `facingMode: 'environment'` picks the
+ultra-wide lens, whose distortion can weaken tracking. It's device-specific and
+not something the page can reliably override.
+
 ## Video shape vs. card shape
 
 The character videos aren't all the same aspect ratio (most are tall 1080×1920
