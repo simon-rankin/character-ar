@@ -1,10 +1,29 @@
-# Character AR Cards
+# Off the Page
+
+Motion design outcomes in augmented reality — a showcase of student work from
+the Associate Degree in Graphic Design, Brunswick. [@rmit_gd](https://www.instagram.com/rmit_gd/)
 
 A no-install "scan the card, watch the video" AR experience. Visitors open a link
 in their phone's browser (no app to install), point the camera at a printed
-card, and the matching character video plays in perspective right over the card.
+card, and the matching video plays in perspective right over the card.
 
 Built with [MindAR.js](https://hiukim.github.io/mind-ar-js-doc/) image tracking + three.js.
+
+## Typography
+
+The page is set in **Aglet Mono** (XYZ Type), matching the print cards. Aglet
+Mono is served through [Adobe Fonts](https://fonts.adobe.com/fonts/aglet-mono-variable),
+which is included with any paid Creative Cloud subscription — no pageview limits,
+personal and commercial use permitted.
+
+To switch it on, create a Web Project at fonts.adobe.com containing Aglet Mono
+and uncomment the `use.typekit.net` link in `docs/index.html` with your own kit
+id. Until then the page falls back to the system monospace face, so the layout
+is already correct and only the letterforms change.
+
+Two caveats: the web fonts stop loading if the Creative Cloud subscription
+lapses (the page silently falls back), and a kit id belongs to the account that
+created it — don't reuse another site's.
 
 Live site (via GitHub Pages): https://simon-rankin.github.io/character-ar/
 
