@@ -53,9 +53,13 @@
     font-size: 12.5px; line-height: 1.6; opacity: 0.5;
     max-width: 300px; margin: 0 0 28px;
   }
-  #overlay .credit {
-    font-size: 12.5px; margin: 22px 0 0; opacity: 0.5;
+  #overlay .alt {
+    font-size: 12.5px; margin: 20px 0 0; opacity: 0.55;
   }
+  #overlay .credit {
+    font-size: 12.5px; margin: 14px 0 0; opacity: 0.5;
+  }
+  #overlay .alt a,
   #overlay .credit a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 1px; }
   #startBtn {
     background: #fff; color: #000; border: none; border-radius: 999px;
@@ -120,6 +124,7 @@
   <p class="instruction">Tap start and allow camera access, then point your phone at a card.</p>
   <button id="startBtn">Start</button>
   <p id="preloadStatus"></p>
+  <p class="alt"><a href="./watch.html">No card with you? Just watch the videos</a></p>
   <p class="credit"><a href="https://www.instagram.com/rmit_gd/" target="_blank" rel="noopener">@rmit_gd</a></p>
 </div>
 
@@ -177,6 +182,13 @@
       b.addEventListener('click', a.onClick);
       actions.appendChild(b);
     });
+    // Whatever went wrong, the videos themselves can still be watched — the
+    // gallery deliberately avoids everything that might have failed here.
+    var watch = document.createElement('button');
+    watch.textContent = 'Just watch the videos';
+    watch.className = 'secondary';
+    watch.addEventListener('click', function () { location.href = './watch.html'; });
+    actions.appendChild(watch);
     el('blocker').classList.add('show');
   }
 

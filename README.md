@@ -127,6 +127,17 @@ failing silently, anything that can't run shows a full-screen explanation:
 | Page served over http | Told it must be opened over https |
 | Scripts fail to download | Suggests a different network |
 
+Every one of those screens also offers **"Just watch the videos"**, which leads
+to `docs/watch.html` — a plain thumbnail grid that plays each video in a modal.
+Nobody reaches a dead end: if the AR can't run, the work can still be seen.
+It's linked from the intro screen too, for anyone browsing without a card.
+
+The gallery deliberately shares none of the AR page's machinery — no ES
+modules, no import map, no three.js, no MindAR, and `XMLHttpRequest` rather
+than `fetch`. The browsers landing there are precisely the ones that couldn't
+run those things. Thumbnails are `preload="none"` posters, so opening the grid
+costs ~690KB and a video downloads only when tapped.
+
 The checks run in a plain (non-module) script deliberately, because browsers too
 old to parse the main module would otherwise show a Start button that does
 nothing at all. Camera permission is also requested directly rather than via
