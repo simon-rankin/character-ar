@@ -166,5 +166,69 @@
     "thumb": "thumbs/type-8.jpg",
     "width": 1080,
     "height": 1920
+  },
+  {
+    "slug": "poster-1",
+    "label": "Motion Poster 1",
+    "video": "videos/poster-1.mp4",
+    "thumb": "thumbs/poster-1.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "poster-2",
+    "label": "Motion Poster 2",
+    "video": "videos/poster-2.mp4",
+    "thumb": "thumbs/poster-2.jpg",
+    "width": 608,
+    "height": 1080
+  },
+  {
+    "slug": "poster-3",
+    "label": "Motion Poster 3",
+    "video": "videos/poster-3.mp4",
+    "thumb": "thumbs/poster-3.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "poster-4",
+    "label": "Motion Poster 4",
+    "video": "videos/poster-4.mp4",
+    "thumb": "thumbs/poster-4.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "poster-5",
+    "label": "Motion Poster 5",
+    "video": "videos/poster-5.mp4",
+    "thumb": "thumbs/poster-5.jpg",
+    "width": 608,
+    "height": 1080
+  },
+  {
+    "slug": "poster-6",
+    "label": "Motion Poster 6",
+    "video": "videos/poster-6.mp4",
+    "thumb": "thumbs/poster-6.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "poster-7",
+    "label": "Motion Poster 7",
+    "video": "videos/poster-7.mp4",
+    "thumb": "thumbs/poster-7.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  {
+    "slug": "poster-8",
+    "label": "Motion Poster 8",
+    "video": "videos/poster-8.mp4",
+    "thumb": "thumbs/poster-8.jpg",
+    "width": 1080,
+    "height": 1920
   }
 ]
